@@ -36,4 +36,4 @@ Get returns a tuple (queue, item).
 Example:
 
     # wait 1 second on a blocking get
-    queue, value = q.get(True, timeout=1000)
+    queue, value = q.get(True, timeout=1)
