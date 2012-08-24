@@ -1,15 +1,9 @@
 from setuptools import setup    
-import os
-
-root_dir = os.path.dirname(__file__)
-if not root_dir:
-    root_dir = '.'
-long_desc = open(root_dir + '/README.md').read()
 
 setup(
     name='multiqueue',
     version='0.1',
-    description='Allows to wait for multiple queues with a single object. Employs weighted round-robin as scheduling algorithm.',
+    description='Allows to wait for multiple queues with a single object. Employs weighted round-robin as scheduling algorithm. Queues are identified by ids, that are used on Put and Get operations.',
     url='https://github.com/leio10/python-multiqueue',
     author='Leio 10',
     author_email='leiodd@gmail.com',
@@ -22,5 +16,4 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     license='BSD',
-    long_description=long_desc,
 )
