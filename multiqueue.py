@@ -1,5 +1,5 @@
 """
-emma.utils.multiqueue
+    multiqueue.multiqueue
 ~~~~~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2012 by Leonardo Diez.
@@ -7,7 +7,6 @@ emma.utils.multiqueue
 """
 from collections import deque
 from Queue import Queue
-from itertools import izip
 from heapq import heappop, heappush, heappushpop
 
 class InvalidQueue(Exception):
@@ -24,13 +23,13 @@ class MultiQueue(Queue):
         if allow_resize is True, resizes the list of queues to allocate the new one
         else, raises an InvalidQueue exception.
     """
-    def __init__(self, maxsize=0, num_queues=None, weights=None, allow_resize=True, auto_recycle=0xFFFFFFF):
+    def __init__(self, maxsize=0, num_queues=None, weights=None, allow_resize=False, auto_recycle=0xFFFFFFF):
         """ Create a new MultiQueue.
         
         maxsize -- maximum number of elements in any queue
         num_queues -- initial number of queues
         weights -- list of positive integers with the weight of each queue, bigger is more important
-        allow_resize -- only can be False if there is a num_queues or a weights list
+        allow_resize -- False by default is a num_queues or a weights list, only can be True in other cases 
         """
         Queue.__init__(self, maxsize)
         
@@ -42,27 +41,35 @@ class MultiQueue(Queue):
         self.wait = []
         
         # initialize queues arrays and weights 
-        if num_queues or weights:
-            self.max_weight = max(weights)
-            weights_len = min(num_queues,len(weights)) if num_queues else len(weights)
-            self.wait = weights[:weights_len]
-            self._resize_queues(num_queues or len(weights))
+        if weights:
+            num_queues = len(weights)            
+        elif num_queues:
+            weights = [1]*num_queues
+        
+        if num_queues:
+            self.wait = weights
+            self.max_weight = max(self.wait)
+            self._resize_queues(num_queues)
             self.wait = [self.max_weight-w+1 for w in self.wait] # converts weights in waiting times
             self.allow_resize = allow_resize
         else:
             self.max_weight = 1
             # without number of queues or a weights array, must allow queues resize
             self.allow_resize = True
-        
         self.auto_recycle = auto_recycle
         
     def _init(self, maxsize):
         pass
         
     def _resize_queues(self, num_queues):
-        self.queues = self.queues[0:num_queues] if num_queues<=self.num_queues else self.queues + [deque() for i in xrange(self.num_queues,num_queues)]
-        self.sizes = self.sizes[0:num_queues] if num_queues<=self.num_queues else self.sizes + [0 for i in xrange(self.num_queues,num_queues)]
-        self.wait.extend([self.max_weight]*(num_queues-len(self.wait)))
+        if num_queues<=self.num_queues:
+            self.queues = self.queues[0:num_queues]
+            self.sizes = self.sizes[0:num_queues]
+            self.wait = self.wait[0:num_queues]
+        else:
+            self.queues = self.queues + [deque() for i in xrange(self.num_queues,num_queues)]
+            self.sizes = self.sizes + [0 for i in xrange(self.num_queues,num_queues)]
+            self.wait.extend([self.max_weight]*(num_queues-len(self.wait)))
         self.num_queues = num_queues
         
     def _qsize(self, len=len):
@@ -119,5 +126,3 @@ class MultiQueue(Queue):
         else:
             heappop(self.active_queues)
         return (queue, item)
-
-

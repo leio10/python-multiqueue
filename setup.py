@@ -1,4 +1,4 @@
-from setuptools import setup
+o from setuptools import setup
     
 import os
 
