@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='multiqueue',
-    version='0.1.5',
+    version='0.1.6',
     description='Sometimes when you use the Queue class in Python, you need to get an item from any of several queues. This small module implements an easy solution for this problem.',
     url='https://github.com/leio10/python-multiqueue',
     author='leio10',
@@ -16,7 +16,7 @@ setup(
     ],
     packages=['multiqueue'],
     license='BSD',
-    long_desc="Sometimes when you use the Queue class in Python, you need to get an item from any of several queues.\n\
+    long_description="Sometimes when you use the Queue class in Python, you need to get an item from any of several queues.\n\
 This small module implements an easy solution for this problem.\n\
 \n\
 MultiQueue class inherits from Queue and overrides internal methods of data access, \
