@@ -30,7 +30,7 @@ class TestMultiQueue(unittest.TestCase):
         q = MultiQueue(num_queues=5)
         self.assertRaises(InvalidQueue, q.put, (6, 1))
         
-    def test_order1(self):
+    def test_order(self):
         q = MultiQueue(weights=[1,5,3])
         for i in xrange(10):
             q.put((0,i))
@@ -76,6 +76,25 @@ class TestMultiQueue(unittest.TestCase):
         self.assertEqual(q.get(),(0,7))
         self.assertEqual(q.get(),(0,8))
         self.assertEqual(q.get(),(0,9))
+    
+    def test_auto_recycle(self):
+        # very small value for auto_recycle, don't do this in real code
+        q = MultiQueue(weights=[1,10], auto_recycle=100)
         
+        # fill queues with some data
+        q.put((0,1))
+        q.put((1,1))
+            
+        # forces cycle to grow over auto_recycle value
+        for i in xrange(20):
+            q.put((0,1))
+            q.put((1,1))
+            q.get()
+            q.get()
+        
+        # extract rest of items
+        while not q.empty():
+            q.get()
+    
 if __name__ == '__main__':
     unittest.main()

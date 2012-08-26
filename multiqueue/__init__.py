@@ -92,8 +92,8 @@ class MultiQueue(Queue):
         # auto recycle
         if self.cycle>self.auto_recycle:
             # update the active queues and queues values 
-            self.active_queues = [(int(cycle-self.cycle), order-self.order_number, queue) for cycle, order, queue in self.active_queues]
-            self.queues = [deque((order-self.order_number, value) for order, value in queue) for queue in self.queues]
+            self.active_queues = [(int(cycle-self.cycle), order-self.order_number, aqueue) for cycle, order, aqueue in self.active_queues]
+            self.queues = [deque((order-self.order_number, value) for order, value in aqueue) for aqueue in self.queues]
         
             # reset values
             self.cycle = self.order_number = 0
