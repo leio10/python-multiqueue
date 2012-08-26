@@ -16,10 +16,7 @@ setup(
     ],
     packages=['multiqueue'],
     license='BSD',
-    long_description="Sometimes when you use the Queue class in Python, you need to get an item from any of several queues.\n\
-This small module implements an easy solution for this problem.\n\
-\n\
-MultiQueue class inherits from Queue and overrides internal methods of data access, \
+    long_description="MultiQueue class inherits from Queue and overrides internal methods of data access, \
 sharing its interface but managing multiple queues instead of one.\n\
 \n\
 To add items to a MultiQueue, the put method must receive a tuple with the identifier of the queue as the first element and the value to be stored as the second element.\n\
