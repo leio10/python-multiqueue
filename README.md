@@ -31,7 +31,7 @@ Examples:
     
     # An object with seven queues (ids 0 to 6) with different weights. 
     # Raises InvalidQueue when doing puts with another queue id.
-    q = MultiQueue(maxsize=0, num\_queues=7, weights=[1, 5, 2, 5, 1, 3, 10])
+    q = MultiQueue(maxsize=0, num_queues=7, weights=[1, 5, 2, 5, 1, 3, 10])
     
     # An object with no queues. 
     # For each different queue id in puts operation resizes the list of queues to allocate the new one.
